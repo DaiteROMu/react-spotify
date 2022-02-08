@@ -1,10 +1,12 @@
 import type { NextPage } from 'next';
 import { InferGetServerSidePropsType } from 'next';
 import Image from 'next/image';
+// next-auth
 import { getProviders, signIn } from 'next-auth/react';
 import { LiteralUnion } from 'next-auth/react/types';
-import { ProviderButton } from '../components';
 import { BuiltInProviderType } from 'next-auth/providers';
+// components
+import ProviderButton from '@components/ProviderButton';
 
 const Login: NextPage<
     InferGetServerSidePropsType<typeof getServerSideProps>

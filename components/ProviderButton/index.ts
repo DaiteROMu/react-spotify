@@ -1,1 +1,1 @@
-export { default as ProviderButton } from './ProviderButton';
+export { default as default } from './ProviderButton';

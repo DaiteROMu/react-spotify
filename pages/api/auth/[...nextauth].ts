@@ -1,8 +1,11 @@
 import NextAuth from 'next-auth';
 import SpotifyProvider from 'next-auth/providers/spotify';
-import spotifyApi, { LOGIN_URL } from '../../../utils/spotify';
-import { AuthToken } from '../../../models/auth/auth_token';
-import { AuthSession } from '../../../models/auth/auth_session';
+// lib
+import spotifyApi, { LOGIN_URL } from '@lib/spotify';
+// models
+import { AuthToken } from '@models/auth/auth_token';
+import { AuthSession } from '@models/auth/auth_session';
+import { REFRESH_ACCESS_TOKEN_ERROR_CODE } from '@lib/utils';
 
 const refreshAccessToken = async (token: AuthToken) => {
     try {
@@ -23,7 +26,7 @@ const refreshAccessToken = async (token: AuthToken) => {
 
         return {
             ...token,
-            error: 'RefreshAccessTokenError',
+            error: REFRESH_ACCESS_TOKEN_ERROR_CODE,
         };
     }
 };

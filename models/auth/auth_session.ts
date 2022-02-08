@@ -5,4 +5,5 @@ export type AuthSession = Session & {
         accessToken?: string;
         refreshToken?: string;
     };
+    error?: string;
 };
