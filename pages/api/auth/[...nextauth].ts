@@ -7,22 +7,21 @@ import { AuthToken } from '@models/auth/auth_token';
 import { AuthSession } from '@models/auth/auth_session';
 import { REFRESH_ACCESS_TOKEN_ERROR_CODE } from '@lib/utils';
 
-const refreshAccessToken = async (token: AuthToken) => {
+const refreshAccessToken = async (token: AuthToken): Promise<AuthToken> => {
     try {
         spotifyApi.setAccessToken(token.accessToken);
         spotifyApi.setRefreshToken(token.refreshToken);
 
         const { body: refreshedToken } = await spotifyApi.refreshAccessToken();
-        console.log('Refreshed token is', refreshedToken);
 
         return {
             ...token,
-            accessToken: refreshedToken,
+            accessToken: refreshedToken.access_token ?? token.accessToken,
             accessTokenExpires: Date.now() + refreshedToken.expires_in * 1000, // = 1 hour as 3600 returns from Spotify API
-            refreshToken: refreshedToken ?? token.refreshToken,
+            refreshToken: refreshedToken.refresh_token ?? token.refreshToken,
         };
     } catch (err) {
-        console.error(err);
+        console.error('Next Auth Error: ', err);
 
         return {
             ...token,
@@ -31,19 +30,15 @@ const refreshAccessToken = async (token: AuthToken) => {
     }
 };
 
-const clientId = process.env.NEXT_PUBLIC_CLIENT_ID ?? '';
-const clientSecret = process.env.NEXT_PUBLIC_CLIENT_SECRET ?? '';
-const secret = process.env.JWT_SECRET ?? '';
-
 export default NextAuth({
     providers: [
         SpotifyProvider({
-            clientId,
-            clientSecret,
+            clientId: process.env.NEXT_PUBLIC_CLIENT_ID ?? '',
+            clientSecret: process.env.NEXT_PUBLIC_CLIENT_SECRET ?? '',
             authorization: LOGIN_URL,
         }),
     ],
-    secret,
+    secret: process.env.JWT_SECRET ?? '',
     pages: {
         signIn: '/login',
     },
@@ -64,12 +59,10 @@ export default NextAuth({
 
             // return previous token if the access token has not expired yet
             if (Date.now() < authToken.accessTokenExpires) {
-                console.log('existing token is valid');
                 return authToken;
             }
 
             // Access token has expired, need to refresh it
-            console.log('access token is expired');
             return await refreshAccessToken(authToken);
         },
 

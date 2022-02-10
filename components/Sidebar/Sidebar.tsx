@@ -1,5 +1,6 @@
 import { signOut } from 'next-auth/react';
 import React from 'react';
+import useSpotify from 'hooks/useSpotify';
 import {
     HomeIcon,
     SearchIcon,
@@ -8,10 +9,9 @@ import {
     HeartIcon,
     RssIcon,
 } from '@heroicons/react/outline';
-import useSpotify from 'hooks/useSpotify';
 
 const Sidebar: React.FC = () => {
-    const spotifyApi = useSpotify();
+    const { spotifyApi, authSession } = useSpotify();
 
     const [playlists, setPlaylists] = React.useState<
         SpotifyApi.PlaylistObjectSimplified[]
@@ -23,9 +23,7 @@ const Sidebar: React.FC = () => {
                 setPlaylists(data.body.items);
             });
         }
-    }, [spotifyApi]);
-
-    console.log(playlists);
+    }, [spotifyApi, authSession]);
 
     return (
         <div className="text-gray-500 p-5 text-sm border-r border-gray-900 overflow-y-scroll scrollbar-hide h-screen">
@@ -66,14 +64,14 @@ const Sidebar: React.FC = () => {
                 <hr className="border-t-[0.1px] border-gray-900" />
 
                 {playlists &&
-                    playlists.map((playlist) => {
+                    playlists.map((playlist) => (
                         <p
                             key={playlist.id}
                             className="cursor-pointer hover:text-white"
                         >
                             {playlist.name}
-                        </p>;
-                    })}
+                        </p>
+                    ))}
             </div>
         </div>
     );
