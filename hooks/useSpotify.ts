@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { signIn, useSession } from 'next-auth/react';
 import SpotifyWebApi from 'spotify-web-api-node';
-import { REFRESH_ACCESS_TOKEN_ERROR_CODE } from '@lib/utils';
+import { REFRESH_ACCESS_TOKEN_ERROR_CODE } from '@lib/constants';
 import { AuthSession } from '@models/auth/auth_session';
 
 const spotifyApi = new SpotifyWebApi({

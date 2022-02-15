@@ -5,7 +5,7 @@ import spotifyApi, { LOGIN_URL } from '@lib/spotify';
 // models
 import { AuthToken } from '@models/auth/auth_token';
 import { AuthSession } from '@models/auth/auth_session';
-import { REFRESH_ACCESS_TOKEN_ERROR_CODE } from '@lib/utils';
+import { REFRESH_ACCESS_TOKEN_ERROR_CODE } from '@lib/constants';
 
 const refreshAccessToken = async (token: AuthToken): Promise<AuthToken> => {
     try {

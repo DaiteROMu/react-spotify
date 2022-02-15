@@ -6,7 +6,7 @@ const ProviderButton: React.FC<ProviderButtonProps> = ({
     text,
     className,
     onClick,
-}: ProviderButtonProps) => {
+}) => {
     const handleButtonClick: React.MouseEventHandler<HTMLButtonElement> = () =>
         onClick(id);
 

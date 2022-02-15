@@ -32,7 +32,7 @@ const Login: NextPage<
                         <ProviderButton
                             id={provider.id}
                             text={`Log with ${provider.name}`}
-                            className="bg-[#18D860] text-white p-5 rounded-lg"
+                            className="bg-[color:var(--logo-color)] text-white p-5 rounded-lg"
                             onClick={providerSignIn}
                         />
                     </div>

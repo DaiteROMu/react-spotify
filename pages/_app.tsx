@@ -1,14 +1,20 @@
 import { SessionProvider } from 'next-auth/react';
 import type { AppProps } from 'next/app';
+import { RecoilRoot } from 'recoil';
 import Layout from '@components/Layout';
 import '../styles/globals.css';
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+const MyApp = ({
+    Component,
+    pageProps: { session, ...pageProps },
+}: AppProps) => {
     return (
-        <SessionProvider>
-            <Layout>
-                <Component {...pageProps} />
-            </Layout>
+        <SessionProvider session={session}>
+            <RecoilRoot>
+                <Layout>
+                    <Component {...pageProps} />
+                </Layout>
+            </RecoilRoot>
         </SessionProvider>
     );
 };
